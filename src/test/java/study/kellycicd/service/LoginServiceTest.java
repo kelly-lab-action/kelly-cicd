@@ -31,8 +31,8 @@ class LoginServiceTest {
     @Test
     void loginFail() {
         // Given
-        final String userName = "elmo";
-        final String password = "elmoPw";
+        final String userName = "kermit";
+        final String password = "kermitPw";
 
         // When
         final boolean result = loginService.login(userName, password);
