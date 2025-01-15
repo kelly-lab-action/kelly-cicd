@@ -37,11 +37,11 @@ jobs:
       - name: Set env
         id: set-environment
         run: |
-          echo ${{ github.base_ref }}
+          echo "Target Branch -> ${{ github.base_ref }}"
           echo "environment=dev" >> $GITHUB_OUTPUT
 
           if [[ ${{ github.base_ref }} == "main" ]]; then
             echo "environment=prod" >> $GITHUB_OUTPUT
           fi
-      - name: check env
-        run: echo ${{ steps.set-environment.outputs.environment }}
+      - name: Check env
+        run: echo "Current environment -> ${{ steps.set-environment.outputs.environment }}"
