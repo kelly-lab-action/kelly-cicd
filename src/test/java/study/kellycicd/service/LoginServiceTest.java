@@ -24,7 +24,7 @@ class LoginServiceTest {
         final boolean result = loginService.login(userName, password);
 
         // Then
-        assertThat(result).isTrue();
+        assertThat(result).isFalse();
     }
 
     @DisplayName("로그인 실패 테스트")
