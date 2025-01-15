@@ -1,0 +1,13 @@
+package study.kellycicd;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class KellyCicdApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(KellyCicdApplication.class, args);
+    }
+
+}
