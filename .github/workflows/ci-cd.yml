@@ -1,0 +1,47 @@
+name: Backend CI/CD
+
+on:
+  pull_request:
+    types: [ opened, synchronize, closed ]
+    branches: [ dev, main ]
+    paths:
+      - 'src/**'
+
+jobs:
+  test:
+    if: github.event.action == 'opened' || github.event.action == 'synchronize'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+      - name: Set up jdk
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew\
+      - name: Build with gradle
+        run: ./gradlew bootJar
+      - name: Execute test
+        run: ./gradlew test
+
+  set-environment:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.set-environment.outputs.environment }}
+    steps:
+      - name: Set env
+        id: set-environment
+        run: |
+          echo ${{ github.base_ref }}
+          echo "environment=dev" >> $GITHUB_OUTPUT
+
+          if [[ ${{ github.base_ref }} == "main" ]]; then
+            echo "environment=prod" >> $GITHUB_OUTPUT
+          fi
+      - name: check env
+        run: echo ${{ steps.set-environment.outputs.environment }}
