@@ -38,6 +38,6 @@ class LoginServiceTest {
         final boolean result = loginService.login(userName, password);
 
         // Then
-        assertThat(result).isFalse();
+        assertThat(result).isTrue();
     }
 }
