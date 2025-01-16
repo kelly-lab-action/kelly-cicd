@@ -15,4 +15,9 @@ public class LoginController {
     public String logout() {
         return "Goodbye!";
     }
+
+    @GetMapping("/api/profile")
+    public String profile() {
+        return "I am KellyCicd";
+    }
 }
