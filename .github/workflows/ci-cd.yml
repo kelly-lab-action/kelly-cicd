@@ -92,7 +92,7 @@ jobs:
         environment: [ "${{ needs.set-environment.outputs.environment }}" ]
     environment: ${{ matrix.environment }}
     steps:
-      - name: Deploy to EC2
+      - name: Deploy new Spring Boot Application
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.BACKEND_EC2_HOST }}
@@ -101,4 +101,8 @@ jobs:
           port: 22
           script: |
             cd ~/project
-            touch you_hacked.txt
+            sudo docker-compose --env-file .${{ matrix.environment }}.env stop springboot-app
+            sudo docker-compose --env-file .${{ matrix.environment }}.env rm -f springboot-app
+            sudo docker images --filter=reference="*/springboot-app-${{ matrix.environment }}:*" -q | xargs -r sudo docker rmi -f
+            sudo sed -i 's/^SPRING_BOOT_APP_IMAGE_TAG=.*/SPRING_BOOT_APP_IMAGE_TAG=${{ github.sha }}/' .${{ matrix.environment }}.env
+            sudo docker-compose --env-file .${{ matrix.environment }}.env up -d springboot-app
