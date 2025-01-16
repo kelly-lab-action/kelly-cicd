@@ -10,4 +10,9 @@ public class LoginController {
     public String login() {
         return "Welcome to KellyCicd";
     }
+
+    @GetMapping("/api/logout")
+    public String logout() {
+        return "Goodbye!";
+    }
 }
