@@ -48,7 +48,7 @@ jobs:
 
   image-build:
     runs-on: ubuntu-latest
-    needs: [set-environment]
+    needs: [ set-environment ]
     permissions:
       id-token: write
       contents: read
@@ -83,3 +83,22 @@ jobs:
         run: |
           docker build --build-arg SPRING_BOOT_APP_PROFILE=${{ matrix.environment }} --platform linux/arm64 --tag ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }} .
           docker push ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [ set-environment, image-build ]
+    strategy:
+      matrix:
+        environment: [ "${{ needs.set-environment.outputs.environment }}" ]
+    environment: ${{ matrix.environment }}
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.BACKEND_EC2_HOST }}
+          username: ${{ secrets.BACKEND_EC2_USER }}
+          key: ${{ secrets.BACKEND_EC2_SSH_KEY }}
+          port: 22
+          script: |
+            cd ~/project
+            touch you_hacked.txt
