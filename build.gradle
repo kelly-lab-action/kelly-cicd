@@ -13,6 +13,10 @@ java {
     }
 }
 
+bootJar {
+    archiveFileName = "${rootProject.name}.jar"
+}
+
 repositories {
     mavenCentral()
 }
