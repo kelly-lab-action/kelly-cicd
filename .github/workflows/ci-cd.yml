@@ -112,13 +112,13 @@ jobs:
         with:
           payload: |
             {
-              "text": "message",
+              "text": "Backend 배포 결과 알림 🔥",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "Environment : ${{ matrix.environment }}, Deploy Result : ${{ steps.status.outcome }}, Repository : ${{ github.repository }}."
+                    "text": "🖥️ *Environment* : backend-${{ matrix.environment }}\n🙏 *Result* : ${{ steps.deploy.outcome == 'success' && 'success 🎉🎉🎉' || 'fail 🤬🤬🤬' }}"
                   }
                 }
               ]
