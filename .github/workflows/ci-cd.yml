@@ -118,7 +118,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "🖥️ *Environment* : backend-${{ matrix.environment }}\n🙏 *Result* : ${{ steps.deploy.outcome == 'success' && 'success 🎉' || 'failure 🤬' }}"
+                    "text": "오늘은 퇴근할 수 있을까...\nEnvironment : backend-${{ matrix.environment }}\nResult : ${{ steps.deploy.outcome == 'success' && 'success 🎉' || 'fail 💀' }}"
                   }
                 }
               ]
