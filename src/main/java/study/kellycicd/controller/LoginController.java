@@ -20,4 +20,9 @@ public class LoginController {
     public String profile() {
         return "I am KellyCicd";
     }
+
+    @GetMapping("/api/kelly")
+    public String kelly() {
+        return "켈리? 켈리 몰라?";
+    }
 }
