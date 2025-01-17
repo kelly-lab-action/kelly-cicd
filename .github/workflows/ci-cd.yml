@@ -93,6 +93,7 @@ jobs:
     environment: ${{ matrix.environment }}
     steps:
       - name: Deploy new Spring Boot Application
+        id: deploy-status
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.BACKEND_EC2_HOST }}
@@ -119,7 +120,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "오늘은 퇴근할 수 있을까...\nEnvironment : backend-${{ matrix.environment }}, Result : ${{ steps.deploy.outcome == 'success' && 'success 🎉' || 'fail 💀' }}"
+                    "text": "오늘은 퇴근할 수 있을까...\nEnvironment : backend-${{ matrix.environment }}, Result : ${{ steps.deploy-status.outcome == 'success' && 'success 🎉' || 'fail 💀' }}"
                   }
                 }
               ]
