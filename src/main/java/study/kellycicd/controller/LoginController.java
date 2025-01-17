@@ -22,7 +22,7 @@ public class LoginController {
     }
 
     @GetMapping("/api/kelly")
-    public String profile() {
+    public String kelly() {
         return "켈리? 켈리 몰라?";
     }
 }
