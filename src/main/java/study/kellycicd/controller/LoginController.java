@@ -25,4 +25,9 @@ public class LoginController {
     public String kelly() {
         return "켈리? 켈리 몰라?";
     }
+
+    @GetMapping("/api/elmo")
+    public String elmo() {
+        return "나는 엘모임 ㅎ";
+    }
 }
