@@ -31,7 +31,7 @@ class LoginServiceTest {
     @Test
     void loginFail() {
         // Given
-        final String userName = "aa9";
+        final String userName = "aa90";
         final String password = "aaPw9";
 
         // When
