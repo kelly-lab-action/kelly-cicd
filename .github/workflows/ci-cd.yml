@@ -102,7 +102,7 @@ jobs:
           key: ${{ secrets.BACKEND_EC2_SSH_KEY }}
           port: 22
           source: "./docker-compose.yml"
-          target: "~/project/docker-compose.yml"
+          target: "~/project"
 
       - name: Deploy new Spring Boot Application
         id: deploy-status
