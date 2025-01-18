@@ -36,6 +36,11 @@ public class LoginController {
         return "성욱쨩.. 이제.. 정말 마지막이야. 안녕.";
     }
 
+    @GetMapping("/api/bye")
+    public String real_bye() {
+        return "너무 고생했어!!!!!!!!!!!";
+    }
+
     @GetMapping("/api/chicken")
     public String chicken() {
         return "히히 개꿀맛 치킨 기모띵~";
