@@ -115,7 +115,7 @@ jobs:
           script: |
             cd ~/project
             
-            cat <<EOF > .hack.env
+            cat <<EOF > .dev.env
             
             DOCKER_REPO_NAME=
             DOCKER_IMAGE_VERSION=
