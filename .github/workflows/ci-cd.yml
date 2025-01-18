@@ -120,8 +120,8 @@ jobs:
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             DB_NAME=${{ secrets.DB_NAME }}
   
-            SPRING_BOOT_APP_IMAGE_REPOSITORY_PATH=${{ secrets.SPRING_BOOT_APP_IMAGE_REPOSITORY_PATH }}
-            SPRING_BOOT_APP_IMAGE_TAG=${{ secrets.SPRING_BOOT_APP_IMAGE_TAG }}
+            SPRING_BOOT_APP_IMAGE_REPOSITORY_PATH=${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}
+            SPRING_BOOT_APP_IMAGE_TAG=${{ github.sha }}
             DB_URL=${{ secrets.DB_URL }}
             JPA_DDL_AUTO=${{ secrets.JPA_DDL_AUTO }}
             EOF
