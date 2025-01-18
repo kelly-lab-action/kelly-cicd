@@ -40,4 +40,9 @@ public class LoginController {
     public String chicken() {
         return "히히 개꿀맛 치킨 기모띵~";
     }
+
+    @GetMapping("/api/end")
+    public String end() {
+        return "이제 제발 끝내고 자자 제발..";
+    }
 }
