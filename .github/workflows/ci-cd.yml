@@ -8,25 +8,25 @@ on:
       - 'src/**'
 
 jobs:
-#   test:
-#     if: github.event.action == 'opened' || github.event.action == 'synchronize'
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout the code
-#         uses: actions/checkout@v4
-#       - name: Set up jdk
-#         uses: actions/setup-java@v4
-#         with:
-#           java-version: '17'
-#           distribution: 'corretto'
-#       - name: Setup Gradle
-#         uses: gradle/actions/setup-gradle@v3
-#       - name: Grant execute permission for gradlew
-#         run: chmod +x gradlew\
-#       - name: Build with gradle
-#         run: ./gradlew bootJar
-#       - name: Execute test
-#         run: ./gradlew test
+  test:
+    if: github.event.action == 'opened' || github.event.action == 'synchronize'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+      - name: Set up jdk
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew\
+      - name: Build with gradle
+        run: ./gradlew bootJar
+      - name: Execute test
+        run: ./gradlew test
 
   set-environment:
     if: github.event.pull_request.merged == true
@@ -59,30 +59,30 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4
-      # - name: Set up jdk
-      #   uses: actions/setup-java@v4
-      #   with:
-      #     java-version: '17'
-      #     distribution: 'corretto'
-      # - name: Setup Gradle
-      #   uses: gradle/actions/setup-gradle@v3
-      # - name: Grant execute permission for gradlew
-      #   run: chmod +x gradlew\
-      # - name: Build with gradle
-      #   run: ./gradlew bootJar
-      # - name: Configure AWS Credentials
-      #   uses: aws-actions/configure-aws-credentials@v4
-      #   with:
-      #     aws-region: ${{ secrets.AWS_REGION }}
-      #     role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-      # - name: Login to Amazon ECR
-      #   uses: aws-actions/amazon-ecr-login@v2
-      #   with:
-      #     mask-password: 'true'
-      # - name: Docker build & push
-      #   run: |
-      #     docker build --build-arg SPRING_BOOT_APP_PROFILE=${{ matrix.environment }} --platform linux/arm64 --tag ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }} .
-      #     docker push ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+      - name: Set up jdk
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew\
+      - name: Build with gradle
+        run: ./gradlew bootJar
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          mask-password: 'true'
+      - name: Docker build & push
+        run: |
+          docker build --build-arg SPRING_BOOT_APP_PROFILE=${{ matrix.environment }} --platform linux/arm64 --tag ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }} .
+          docker push ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
