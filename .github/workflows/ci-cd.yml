@@ -104,16 +104,26 @@ jobs:
           source: "./docker-compose.yml"
           target: "~/project/docker-compose.yml"
 
-#      - name: Deploy new Spring Boot Application
-#        id: deploy-status
-#        uses: appleboy/ssh-action@v1.2.0
-#        with:
-#          host: ${{ secrets.BACKEND_EC2_HOST }}
-#          username: ${{ secrets.BACKEND_EC2_USER }}
-#          key: ${{ secrets.BACKEND_EC2_SSH_KEY }}
-#          port: 22
-#          script: |
-#            cd ~/project
+      - name: Deploy new Spring Boot Application
+        id: deploy-status
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.BACKEND_EC2_HOST }}
+          username: ${{ secrets.BACKEND_EC2_USER }}
+          key: ${{ secrets.BACKEND_EC2_SSH_KEY }}
+          port: 22
+          script: |
+            cd ~/project
+            
+            cat <<EOF > .hack.env
+            
+            DOCKER_REPO_NAME=
+            DOCKER_IMAGE_VERSION=
+            
+            CLIENT_ID=
+            
+            YOU_R_BAD_BOY
+            EOF
 
             
 
