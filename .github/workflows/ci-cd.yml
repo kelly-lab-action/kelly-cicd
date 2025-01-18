@@ -115,14 +115,15 @@ jobs:
           script: |
             cd ~/project
             
-            cat <<EOF > .dev.env
-            
-            DOCKER_REPO_NAME=
-            DOCKER_IMAGE_VERSION=
-            
-            CLIENT_ID=
-            
-            YOU_R_BAD_BOY
+            cat <<EOF > .${{ matrix.environment }}.env
+            DB_USERNAME=${{ secrets.DB_USERNAME }}
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            DB_NAME=${{ secrets.DB_NAME }}
+  
+            SPRING_BOOT_APP_IMAGE_REPOSITORY_PATH=${{ secrets.SPRING_BOOT_APP_IMAGE_REPOSITORY_PATH }}
+            SPRING_BOOT_APP_IMAGE_TAG=${{ secrets.SPRING_BOOT_APP_IMAGE_TAG }}
+            DB_URL=${{ secrets.DB_URL }}
+            JPA_DDL_AUTO=${{ secrets.JPA_DDL_AUTO }}
             EOF
 
             

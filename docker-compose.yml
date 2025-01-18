@@ -1,1 +1,101 @@
-you hacked. fucker!!
+x-common-springboot-app-settings: &common-springboot-settings
+  image: ${SPRING_BOOT_APP_IMAGE_REPOSITORY_PATH}:${SPRING_BOOT_APP_IMAGE_TAG}
+  networks:
+    - dev_network
+  volumes:
+    - ./data/springboot-app/logs:/logs
+  environment:
+    TZ: "Asia/Seoul"
+    SPRING_DATASOURCE_URL: ${DB_URL}
+    SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+    SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+    SPRING_JPA_HIBERNATE_DDL-AUTO: ${JPA_DDL_AUTO}
+  depends_on:
+    - mysql
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - dev_network
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    restart: always
+    environment:
+      TZ: Asia/Seoul
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+  springboot-app-dev:
+    <<: *common-springboot-settings
+    container_name: springboot-app-dev
+    ports:
+      - "8080:8080"
+
+  springboot-app-prod-a:
+    <<: *common-springboot-settings
+    container_name: springboot-app-prod-a
+    ports:
+      - "8081:8081"
+
+  springboot-app-prod-b:
+    <<: *common-springboot-settings
+    container_name: springboot-app-prod-b
+    ports:
+      - "8082:8082"
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    ports:
+      - "9080:9080"
+    networks:
+      - dev_network
+    volumes:
+      - ./data/springboot-app/logs:/logs
+      - ./data/promtail/promtail-config.yml:/etc/promtail/config.yml
+    command:
+      - -config.file=/etc/promtail/config.yml
+    environment:
+      TZ: "Asia/Seoul"
+    depends_on:
+      - springboot-app
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    networks:
+      - dev_network
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - dev_network
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/nginx/html:/var/www/html
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    depends_on:
+      - mysql
+      - springboot-app
+      - certbot
+
+networks:
+  dev_network:
+    external: true
