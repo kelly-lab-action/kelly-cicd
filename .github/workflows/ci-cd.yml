@@ -127,10 +127,10 @@ jobs:
             EOF
 
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | sudo docker login --username ${{ secrets.AWS_REPOSITORY_ID }} --password-stdin ${{ secrets.ECR_REGISTRY }}
-            sudo docker-compose --env-file .${{ matrix.environment }}.env stop springboot-app-${{ matrix.environment }}
-            sudo docker-compose --env-file .${{ matrix.environment }}.env rm -f springboot-app-${{ matrix.environment }}
+            sudo docker-compose --env-file .${{ matrix.environment }}.env stop springboot-app
+            sudo docker-compose --env-file .${{ matrix.environment }}.env rm -f springboot-app
             sudo docker images --filter=reference="*/springboot-app-${{ matrix.environment }}:*" -q | xargs -r sudo docker rmi -f
-            sudo docker-compose --env-file .${{ matrix.environment }}.env up -d springboot-app-${{ matrix.environment }}
+            sudo docker-compose --env-file .${{ matrix.environment }}.env up -d springboot-app
             
             sudo rm -rf .${{ matrix.environment }}.env
 
