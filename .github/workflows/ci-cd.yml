@@ -24,6 +24,8 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew\
       - name: Execute test
+        env:
+          API_DOCS_PATH: "/path/to/api/docs"
         run: ./gradlew test --info
 
   set-environment:
