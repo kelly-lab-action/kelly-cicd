@@ -23,8 +23,6 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew\
-      - name: Build with gradle
-        run: ./gradlew bootJar
       - name: Execute test
         run: ./gradlew test
 
@@ -115,17 +113,18 @@ jobs:
           script: |
             cd ~/project
             
+            # create env file
             cat <<EOF > .${{ matrix.environment }}.env
             DB_USERNAME=${{ secrets.DB_USERNAME }}
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             DB_NAME=${{ secrets.DB_NAME }}
-  
+            
             SPRING_BOOT_APP_IMAGE_REPOSITORY_PATH=${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}
             SPRING_BOOT_APP_IMAGE_TAG=${{ github.sha }}
             DB_URL=${{ secrets.DB_URL }}
-            JPA_DDL_AUTO=${{ secrets.JPA_DDL_AUTO }}
             EOF
 
+            # deploy with docker
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | sudo docker login --username ${{ secrets.AWS_REPOSITORY_ID }} --password-stdin ${{ secrets.ECR_REGISTRY }}
             sudo docker-compose --env-file .${{ matrix.environment }}.env stop springboot-app
             sudo docker-compose --env-file .${{ matrix.environment }}.env rm -f springboot-app

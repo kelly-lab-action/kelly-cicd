@@ -8,3 +8,6 @@ spring:
       hibernate:
         format_sql: true
     open-in-view: false
+
+secret:
+  api-docs-path: ${API_DOCS_PATH}
