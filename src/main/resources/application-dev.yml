@@ -1,3 +1,5 @@
+server.port: ${APPLICATION_PORT}
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -5,17 +7,8 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: ${JPA_DDL_AUTO}
-    properties:
-      hibernate:
-        format_sql: true
-    open-in-view: false
+  jpa.hibernate.ddl-auto: update
 
 logging:
-  config: classpath:logback-dev.xml
-  level:
-    study:
-      kellycicd: trace
+  config: classpath:logback/logback-dev.xml
+  level.site.dogether: trace
