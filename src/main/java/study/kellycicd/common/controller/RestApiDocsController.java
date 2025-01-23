@@ -1,7 +1,6 @@
-package study.kellycicd.controller;
+package study.kellycicd.common.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -12,17 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Profile("!prod")
 @RequiredArgsConstructor
 @RestController
-public class CommonController {
+public class RestApiDocsController {
 
     private final ResourceLoader resourceLoader;
 
-    @Value("${secret.api-docs-path}")
-    private String apiDocsPath;
-
     @GetMapping("/api/docs")
     public ResponseEntity<Resource> docs() {
-//        final Resource resource = resourceLoader.getResource("classpath:/static/docs/index.html");
-        final Resource resource = resourceLoader.getResource("classpath:" + apiDocsPath);
+        final Resource resource = resourceLoader.getResource("classpath:static/docs/index.html");
         return ResponseEntity.ok(resource);
     }
 }
