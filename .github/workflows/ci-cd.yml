@@ -24,11 +24,12 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew\
       - name: Execute test
+        # test 패키지 하위 application.yml 민감 정보 추가
         env:
           DB_DRIVER: "org.h2.Driver"
           DB_URL: "jdbc:h2:mem:dogether;MODE=MYSQL"
           DB_USERNAME: "sa"
-        run: ./gradlew test
+        run: ./gradlew test --info
 
   set-environment:
     if: github.event.pull_request.merged == true
