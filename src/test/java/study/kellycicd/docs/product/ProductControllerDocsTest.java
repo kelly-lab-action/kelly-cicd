@@ -22,7 +22,7 @@ public class ProductControllerDocsTest extends RestDocsSupport {
         return new ProductController();
     }
 
-    @DisplayName("신규 상품 등록 API")
+    @DisplayName("신규 상품 등록 API aaaaa")
     @Test
     void createProduct() throws Exception {
         final CreateProductRequest request = new CreateProductRequest(
