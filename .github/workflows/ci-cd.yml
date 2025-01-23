@@ -72,7 +72,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew\
       - name: Build with gradle
-        run: ./gradlew bootJar
+        run: ./gradlew bootJar -Pspring.profiles.active=${{ matrix.environment }} --info
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
